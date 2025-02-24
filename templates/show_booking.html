@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block content %}
+ <div class="container mt-5">
+        <!-- Movie Booking Title -->
+        <h2 class="mb-4">{{ movie.title }} - Booking</h2>
+
+        <!-- Filters Row -->
+        <div class="row mb-3">
+            <!-- Language Filter -->
+            <div class="col">
+                <label for="language">Language</label>
+                <select id="language" class="form-control">
+                    <option value="Hindi">Hindi</option>
+                    <option value="English">English</option>
+                    <!-- Add more languages as needed -->
+                </select>
+            </div>
+
+            <!-- Sub-region Filter -->
+            <div class="col">
+                <label for="sub-region">Sub-region</label>
+                <select id="sub-region" class="form-control">
+                    <option value="Navi Mumbai">Navi Mumbai</option>
+                    <option value="Thane">Thane</option>
+                    <!-- Add more sub-regions as needed -->
+                </select>
+            </div>
+
+            <!-- Price Range Filter -->
+            <div class="col">
+                <label for="price-range">Price Range</label>
+                <select id="price-range" class="form-control">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+
+            <!-- Show Timings Filter -->
+            <div class="col">
+                <label for="show-timings">Show Timings</label>
+                <select id="show-timings" class="form-control">
+                    <option value="morning">Morning</option>
+                    <option value="afternoon">Afternoon</option>
+                    <option value="evening">Evening</option>
+                    <option value="night">Night</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Movie Showtimes -->
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="mb-3">Available Showtimes</h4>
+
+                <!-- Loop Through Theaters -->
+                {% for theater in theaters %}
+                <div class="card mb-4 movie-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ theater.name }}</h5>
+                        <p class="card-text">Location: {{ theater.location }}</p>
+                        <div class="row">
+                            {% for show in shows %}
+                                {% if show.theater.id == theater.id %}
+                                    <div class="col-md-3">
+                                        <p class="text-left">{{ show.time }}</p>
+                                        <p class="text-left">Available Seats: {{ show.available_seats }}</p>
+                                        <a href="{% url 'seat_booking' show.id %}" class="btn btn-outline-danger">Book Now</a>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No theaters available for this movie.</p>
+            {% endfor %}
+            
+            </div>
+        </div>
+    </div>
+<style>
+.seat {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+.seat input {
+    display: none;
+}
+.seat-number {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    text-align: center;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+.seat-number.unavailable {
+    background-color: #d9534f;
+    color: #fff;
+    cursor: not-allowed;
+}
+</style>
+{% endblock content %}

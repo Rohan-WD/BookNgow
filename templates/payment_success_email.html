@@ -1,0 +1,103 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .email-header {
+            background-color: #f8f8f8;
+            text-align: center;
+            padding: 20px;
+        }
+        .email-header img {
+            height: 40px;
+        }
+        .email-header h2 {
+            color:rgb(195, 8, 8);
+            margin: 10px 0;
+            font-size: 20px;
+        }
+        .email-body {
+            padding: 20px;
+        }
+        .email-body img {
+            display: block;
+            max-width: 100%;
+            margin: 0 auto 15px;
+            border-radius: 4px;
+        }
+        .details {
+            margin-bottom: 20px;
+        }
+        .details p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .details strong {
+            color: #333;
+        }
+        .ticket-button {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .ticket-button a {
+            display: inline-block;
+            padding: 10px 20px;
+             background-color: red;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .email-footer {
+            background-color: #f1f1f1;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <img src="{% static 'images\download (9).jpeg' %}" alt="BookNGo">
+            <h2>Your booking is confirmed!</h2>
+            <p>Booking ID: <strong>{{ booking.id }}</strong></p>
+        </div>
+        <div class="email-body">
+             <img src="{{ movie.image.url }}" alt="Movie Poster">
+            <div class="details">
+                <p><strong>Movie:</strong> {{ booking.show.movie.title }}</p>
+                <p><strong>Showtime:</strong> {{ booking.show.date }} | {{ booking.show.time }}</p>
+                <p><strong>Theater:</strong> {{ booking.show.theater.name }} {{ booking.show.theater.location }}</p>
+                <p><strong>Total Amount:</strong> ₹{{ booking.total_amount }}</p>
+                <div style="text-align: center; margin-top: 20px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ booking.id }}&size=150x150" alt="QR Code">
+            </div>
+            </div>
+            <div class="ticket-button">
+                <a href="{% url 'booking_history' %}">Open Ticket</a>
+            </div>
+        </div>
+        <div class="email-footer">
+            &copy; 2025 BookNGo. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5 p-4 bg-light shadow-lg rounded">
+    <div class="text-center mb-4">
+        <h1 class="display-4 mb-3 text-danger">My Account</h1>
+        {% if profile.profile_picture %}
+            <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle mb-3 profile-img" style="width: 150px; height: 150px;">
+        {% else %}
+            <img src="https://via.placeholder.com/150" alt="Default Profile" class="img-fluid rounded-circle mb-3 profile-img" style="width: 150px; height: 150px;">
+        {% endif %}
+        <h3 class="mt-2 text-muted">{{ user.username }}</h3>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5><strong>Personal Details</strong></h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</li>
+                    <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                    <li class="list-group-item"><strong>Contact:</strong> {{ user.contact }}</li>
+                    <li class="list-group-item"><strong>Date of Birth:</strong> {{ profile.dob }}</li>
+                    <li class="list-group-item"><strong>Gender:</strong> {{ profile.gender }}</li>
+                    <li class="list-group-item"><strong>Account Created On:</strong> {{ user.date_joined|date:"F j, Y" }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5><strong>Booking Details</strong></h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Last Booking:</strong> {{ last_booking_date|default:"No bookings yet" }}</li>
+                    <li class="list-group-item"><strong>Total Bookings:</strong> {{ total_bookings|default:0 }}</li>
+                    <li class="list-group-item"><strong>Total Spend:</strong> {{ total_spend|default:0.00 }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        {% comment %} <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-lg">Edit Profile</a> {% endcomment %}
+        <a href="{% url 'booking_history' %}" class="btn btn-secondary btn-lg">View Bookings</a>
+    </div>
+</div>
+
+{% endblock content %}

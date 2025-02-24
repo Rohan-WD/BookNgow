@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+   BookNGo/Movie_details-
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid my-4">
+  <div class="row g-4" style="height: 100vh;">
+    <!-- Left Panel -->
+    <div class="col-lg-5" style="height: 100vh; overflow-y: hidden;">
+      <div class="position-sticky" style="top: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8f9fa;">
+        <!-- Movie Image -->
+        <div style="height: 700px; overflow: hidden; width: 100%; text-align: center;">
+          <img src="{{ movie.image.url }}" class="img-fluid" alt="{{ movie.title }}" style="height: 100%; width: auto;">
+        </div>
+        <!-- Booking Buttons -->
+        <div class="mt-4 w-75">
+          <div class="row">
+            <div class="col">
+              <a href="{% url 'show_booking' movie.pk %}" class="btn btn-danger w-100">Book Now</a>
+            </div>
+            <div class="col">
+              <a href="{% url 'index' %}" class="btn btn-secondary w-100">Back to Home</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Left Panel -->
+
+    <!-- Right Panel -->
+    <div class="col-lg-7" style="height: 100vh; overflow-y: auto; padding: 1rem;">
+      <h4 class="fw-bold">{{ movie.title }}</h4>
+      <p class="text-secondary fw-semibold">Genre: {{ movie.genre }}</p>
+      <p class="text-secondary fw-semibold">Language: {{ movie.language }}</p>
+      <p class="text-secondary fw-semibold">Duration: {{ movie.duration }} minutes</p>
+      <p class="text-secondary fw-semibold">Rating: {{ movie.rating }} / 10</p>
+      <p class="text-secondary fw-semibold">Release Date: {{ movie.release_date }}</p>
+
+      <h5 class="mt-4 text-success fw-semibold">About the movie</h5>
+      <p>{{ movie.description }}</p>
+
+      {% comment %} <h5 class="mt-4 text-primary fw-semibold">Available Shows</h5> {% endcomment %}
+      {% comment %} <ul class="list-group">
+        {% for show in movie.show_set.all %}
+        <li class="list-group-item">
+          Theater: {{ show.theater.name }} - {{ show.date }} at {{ show.time }} <br>
+          Available Seats: {{ show.available_seats }} / {{ show.total_seats }}
+        </li>
+        {% empty %}
+        <p>No shows available for this movie.</p>
+        {% endfor %}
+      </ul> {% endcomment %}
+    </div>
+    <!-- End Right Panel -->
+  </div>
+</div>
+{% endblock content %}

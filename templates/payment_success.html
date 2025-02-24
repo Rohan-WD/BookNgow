@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .ticket-card {
+            background: #fff;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .ticket-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .ticket-header img {
+            width: 60px;
+            border-radius: 5px;
+        }
+        .ticket-header h1 {
+            font-size: 18px;
+            margin: 0;
+        }
+        .ticket-details {
+            margin-top: 15px;
+        }
+        .ticket-details p {
+            margin: 5px 0;
+        }
+        .qr-code {
+            margin: 15px auto;
+            text-align: center;
+        }
+        .total-amount {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: right;
+            
+        }
+        .ticket-card.cta {
+            margin-top: 20px;
+        }
+        .ticket-card .cta a {
+            display: inline-block;
+            background-color: red;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .ticket-card .cta a:hover {
+            background-color: rgb(168, 9, 9);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="ticket-card">
+        <div class="ticket-header">
+            <img src="{{ movie.image.url }}" alt="Movie Poster">
+            <h1>{{ movie.title }} ({{ movie.language }})</h1>
+        </div>
+        <div class="ticket-details">
+            <p><strong>Date & Time:</strong> {{ show.date }} | {{ show.time }}</p>
+            <p><strong>Theater:</strong> {{ theater.name }}, {{ theater.location }}</p>
+            {% comment %} <p><strong>Seats:</strong> {% for seat in seats %}{{ seat.seat_number }} {% endfor %}</p> {% endcomment %}
+            <p><strong>Booking ID:</strong> {{ booking.id. }}</p>
+        </div>
+        <div class="qr-code">
+            <!-- Include a QR code image (use a QR code generator for `booking.id`) -->
+            <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ booking.id }}&size=150x150" alt="QR Code">
+        </div>
+        <div class="total-amount">
+            Total Amount: ₹{{ booking.total_amount }}
+        </div>
+         <div class="cta bg bg">
+            <a href="/">Go to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>

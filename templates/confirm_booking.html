@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Booking</title>
+    <!-- Add Bootstrap for styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .card {
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="card p-4 shadow" style="max-width: 600px; width: 100%;">
+          <h2 class="fw-bold mb-4 text-center" style="font-size: 24px; color: #333;">Booking Summary</h2>
+          
+          <!-- User Details -->
+          <div class="mb-4">
+            <h5 class="fw-bold">User Details</h5>
+            <hr>
+            <p class="mb-0">
+              <strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong><br>
+              Email: {{ request.user.email }}<br>
+              Contact: <span id="user-contact">{{ request.user.contact }}</span>
+              <button class="btn btn-link p-0" id="edit-contact-btn">Edit</button>
+            </p>
+            <div id="edit-contact-form" class="d-none">
+              <input type="text" id="new-contact" class="form-control mb-2" placeholder="Enter new contact number">
+              <button class="btn btn-primary" id="save-contact-btn">Save</button>
+              <button class="btn btn-secondary" id="cancel-contact-btn">Cancel</button>
+            </div>
+          </div>
+      
+          <!-- Booking Summary -->
+          <div class="mb-4">
+            <h5 class="fw-bold">Summary</h5>
+            <hr>
+            <p class="mb-1"><strong>Total Seats: </strong>{{ seats|length }}</p>
+            <p class="fw-bold text-primary">Total Amount: ₹{{ total_amount }}</p>
+          </div>
+      
+          <!-- Selected Seats -->
+          <div class="mb-4">
+            <h5 class="fw-bold">Selected Seats</h5>
+            <hr>
+            <ul class="list-unstyled">
+              {% for seat in seats %}
+                <li class="mb-2">Seat Number: <strong>{{ seat.seat_number }}</strong> ({{ seat.seat_class }})</li>
+              {% endfor %}
+            </ul>
+          </div>
+      
+          <!-- Confirm Booking Button -->
+          {% if seats %}
+            <a href="{% url 'pay' booking.id %}" class="btn btn-danger w-100">Confirm Booking</a>
+          {% else %}
+            <div class="alert alert-info" role="alert">
+              No seats selected for booking. <a href="{% url 'seat_booking' show.id %}" class="alert-link">Choose seats</a> to proceed.
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+    <!-- Add Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editContactBtn = document.getElementById('edit-contact-btn');
+            const editContactForm = document.getElementById('edit-contact-form');
+            const userContact = document.getElementById('user-contact');
+            const newContactInput = document.getElementById('new-contact');
+            const saveContactBtn = document.getElementById('save-contact-btn');
+            const cancelContactBtn = document.getElementById('cancel-contact-btn');
+
+            editContactBtn.addEventListener('click', function() {
+                editContactForm.classList.remove('d-none');
+                userContact.style.display = 'none';
+                editContactBtn.style.display = 'none';
+            });
+
+            cancelContactBtn.addEventListener('click', function() {
+                editContactForm.classList.add('d-none');
+                userContact.style.display = 'inline';
+                editContactBtn.style.display = 'inline';
+            });
+
+            saveContactBtn.addEventListener('click', function() {
+                const newContact = newContactInput.value;
+                if (newContact) {
+                    userContact.textContent = newContact;
+                    editContactForm.classList.add('d-none');
+                    userContact.style.display = 'inline';
+                    editContactBtn.style.display = 'inline';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

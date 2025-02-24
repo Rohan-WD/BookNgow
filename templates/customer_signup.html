@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  Cutomer SignUp  
+{% endblock title %}
+
+{% comment %} {% block header %}
+   <div class="row">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <div style="width:320px ; height: 50px;">
+    
+              </div>
+                <a class="navbar-brand padding-2" href="{% url 'index' %}">
+                    <img src="{% static 'images/Screenshot 2024-08-15 132534.png' %}" alt="Bootstrap" width="150" height="40">
+                </a>
+                <br><br>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button> 
+
+               <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'index' %}"><i class="fa-solid fa-house"></i> Home</a>
+            </li>
+{% endblock header %} {% endcomment %}
+
+{% block content %}  
+   <div class="signup-container">
+        <div class="logo">
+            <img src={% static 'images/book (2).png' %} alt="Book My Show Logo">
+        </div>
+        <h2>Sign Up</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{form.as_p}}
+
+          <button type="submit" class="btn btn-signup w-100">Sign Up</button>
+       </form>
+        <p class="text-center text-muted mt-3">Already have an account? <a href="{% url 'signin' %}">Sign In</a></p>
+    </div>
+
+{% endblock content %}
